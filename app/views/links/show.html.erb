@@ -1,10 +1,30 @@
-<p id="notice"><%= notice %></p>
+<div class="card text-center">
+  <div class="card-header">
+    URL Shortener by Karol Onaszkiewicz
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Your short URL</h5>
+    <p class="card-text" id="short_link" contenteditable="true"><%= "#{request.base_url}/#{@link.short_url}" %></p>
+    <div class="alert alert-success" id="copied" role="alert" style="display: none">
+		Link copied to clipboard!
+  	</div>
+	<%= link_to 'Create another short link', new_link_path, class: "btn btn-primary"%>
+  </div>
+</div>
 
+<script>
+	var copyTextareaBtn = document.querySelector('#short_link');
 
-<p>
-  <strong>Your short URL:</strong>
-  <%= "#{request.base_url}/ss/#{@link.short_url}" %>
-</p>
+	copyTextareaBtn.addEventListener('click', function(event) {
+		var copyTextarea = document.querySelector('#short_link');
+		copyTextarea.focus();
+		document.execCommand('selectAll', false, null);
 
-<%= link_to 'Edit', edit_link_path(@link) %> |
-<%= link_to 'Back', links_path %>
+		var successful = document.execCommand('copy');
+		var msg = successful ? 'successful' : 'unsuccessful';
+
+		if (msg === 'successful') {
+			document.querySelector('#copied').style.display = "block"
+		}
+	});
+</script>

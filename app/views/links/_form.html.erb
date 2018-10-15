@@ -1,27 +1,17 @@
 <%= form_with(model: link, local: true) do |form| %>
-  <% if link.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(link.errors.count, "error") %> prohibited this link from being saved:</h2>
-
-      <ul>
-      <% link.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+  <div class="row justify-content-md-center">
+    <div class="col-sm-8">
+      <% if @link.errors.any? %>
+      <% @link.errors.full_messages.each do |message| %>
+          <p><%= message %>!</p>
+        <% end %>
       <% end %>
-      </ul>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :og_url %>
-    <%= form.text_field :og_url %>
-  </div>
-
-  <div class="field">
-    <%= form.label :short_url %>
-    <%= form.text_field :short_url %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+    <div class="col-sm-6">
+      <%= form.text_field :og_url, class: 'form-control' %>
+    </div>
+    <div class="col-sm-8" style="margin-top: 10px">
+      <%= form.submit 'Submit', class: 'btn btn-success' %>
+    </div>
   </div>
 <% end %>

@@ -1,10 +1,6 @@
 class LinksController < ApplicationController
   before_action :set_link, only: [:show]
 
-  def index
-    @links = Link.all
-  end
-
   def show
   end
 
@@ -19,6 +15,9 @@ class LinksController < ApplicationController
       if @link.save
         format.html { redirect_to @link, notice: 'Link was successfully created.' }
         format.json { render :show, status: :created, location: @link }
+      elsif @link.errors.messages[:og_url] == ['has already been taken']
+        format.html { redirect_to Link.find_by(og_url: @link.og_url), notice: 'Link was successfully created.' }
+        format.json { render :show, status: :created, location: Link.find_by(og_url: @link.og_url) }
       else
         format.html { render :new }
         format.json { render json: @link.errors, status: :unprocessable_entity }
@@ -30,7 +29,6 @@ class LinksController < ApplicationController
     link = Link.find_by_short_url(params[:short_url])
     redirect_to "https://#{link.og_url}"
   end
-  
 
   private
     def set_link
