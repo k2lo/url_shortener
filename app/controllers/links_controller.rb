@@ -27,7 +27,11 @@ class LinksController < ApplicationController
 
   def url_redirect 
     link = Link.find_by_short_url(params[:short_url])
-    redirect_to "https://#{link.og_url}"
+    if link.present?
+      redirect_to "https://#{link.og_url}"
+    else
+      redirect_to root_path
+    end
   end
 
   private
